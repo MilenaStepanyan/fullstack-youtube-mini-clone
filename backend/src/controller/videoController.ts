@@ -31,7 +31,8 @@ export const getVideos = async (
   }
 };
 export const uploadVideo = (req: Request, res: Response): void => {
-  upload.single("video")(req, res, async (err: any) => {
+    upload.single("video")(req, res, async (err: any) => {
+
     if (err) {
       console.error("Upload Error:", err);
       return res.status(400).json({ msg: err.message });
