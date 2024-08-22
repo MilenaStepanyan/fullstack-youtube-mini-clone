@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import YouTube_logo from "../../public/YouTube_logo.png";
+import YouTube_logo from "../../../public/YouTube_logo.png";
 import { Search } from "../techComponents/Search";
 import { Link } from "react-router-dom";
 
