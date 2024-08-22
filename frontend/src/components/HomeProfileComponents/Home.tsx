@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import YouTube_logo from "../../public/YouTube_logo.png";
-import { Search } from "./Search";
+import { Search } from "../techComponents/Search";
 import { Link } from "react-router-dom";
 
 export const Home:React.FC = () => {
