@@ -5,11 +5,10 @@ import pool from "../db/pool";
 import { User } from "../models/user";
 import { RowDataPacket } from "mysql2";
 
-const secret = process.env.JWT_SECRET;
-if (!secret) {
-  throw new Error("Secret Key Required");
+const secret_key = process.env.JWT_SECRET;
+if(!secret_key){
+    throw new Error ('Secret Key Required')
 }
-
 export const registerUser = async (
   req: Request,
   res: Response
@@ -53,7 +52,7 @@ export const loginUser = async (
       if (!isMatch) {
         return res.status(400).json({ msg: "Wrong password" });
       }
-      const token = jwt.sign({ userId: user.id }, secret, { expiresIn: "1h" });
+      const token = jwt.sign({ userId: user.id }, secret_key, { expiresIn: "1h" });
       console.log(user);
   
       return res.json({ token });
