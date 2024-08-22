@@ -30,3 +30,40 @@ export const registerUser = async (
     return res.status(500).json({ msg: "Server error" });
   }
 };
+
+export const loginUser = async (
+    req: Request,
+    res: Response
+  ): Promise<Response> => {
+    try {
+      const { username, password } = req.body;
+  
+      if (!username || !password) {
+        return res.status(400).json({ msg: "Missing required fields" });
+      }
+      const [rows]: [RowDataPacket[], any] = await pool.query(
+        `SELECT * FROM users WHERE username = ? `,
+        [username]
+      );
+      if (rows.length === 0) {
+        return res.status(404).json({ msg: "User does not exist" });
+      }
+      const user: User = rows[0] as User;
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ msg: "Wrong password" });
+      }
+      const token = jwt.sign({ userId: user.id }, secret, { expiresIn: "1h" });
+      console.log(user);
+  
+      return res.json({ token });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ msg: "Server error" });
+    }
+  };
+  //req: Request, res: Response
+  //:Promise<Response>
+  //[rows]:[RowDataPacket[],any]
+  //  const user: User = rows[0] as User;
+  
