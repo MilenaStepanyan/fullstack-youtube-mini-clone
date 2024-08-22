@@ -29,7 +29,36 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <>
-    </>
+    <div className="register-container">
+      <div className="main-log">
+        <img className="logo-register" src={YouTube_logo} alt="" />
+        <p className="formore">Sign in to be able to upload<br/> videos etc.</p>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <form onSubmit={handleLogin}>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="btn">
+            <button type="submit">Login</button>
+            <Link className="signin" to={"/register"}><p>Register</p></Link>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
