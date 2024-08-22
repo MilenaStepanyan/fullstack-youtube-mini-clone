@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import { Home } from "./components/HomeProfileComponents/Home";
+import { Login } from "./components/authComponents/Login";
+import { Register } from "./components/authComponents/Register";
 
 const App: React.FC = () => {
-  const [message, setMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    axios.get('http://localhost:3010/api/hello')
-      .then(response => setMessage(response.data.message))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
   return (
-    <div>
-      <h1>{message ? message : 'Loading...'}</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   );
 };
 
