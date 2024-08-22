@@ -4,7 +4,7 @@ import axios from "axios";
 import { Search } from "../techComponents/Search";
 
 
-const API_URL = "http://localhost:3000/api/";
+const API_URL = "http://localhost:3010/api/";
 
 export const Profile: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -122,7 +122,7 @@ export const Profile: React.FC = () => {
                       <p>{result.description}</p>
                       <video width="320" height="240" controls>
                         <source
-                          src={`http://localhost:3000/uploads/${result.filename}`}
+                          src={`http://localhost:3010/uploads/${result.filename}`}
                           type={result.mimetype}
                         />
                         Your browser does not support the video tag.
