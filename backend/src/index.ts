@@ -17,5 +17,5 @@ app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello from the backend!' });
 });
 
-const PORT =  3009;
+const PORT =  3010 || process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
