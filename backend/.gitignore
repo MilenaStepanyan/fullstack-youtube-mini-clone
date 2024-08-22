@@ -12,3 +12,4 @@ dist/
 
 # Misc
 .DS_Store
+/uploads
