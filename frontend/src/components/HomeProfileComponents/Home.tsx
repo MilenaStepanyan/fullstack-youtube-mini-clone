@@ -30,7 +30,7 @@ const [results, setResults] = useState<any[]>([])
                   <p>{result.description}</p>
                   <video width="320" height="240" controls>
                     <source
-                      src={`http://localhost:3000/uploads/${result.filename}`}
+                      src={`http://localhost:3010/uploads/${result.filename}`}
                       type={result.mimetype}
                     />
                     Your browser does not support the video tag.
