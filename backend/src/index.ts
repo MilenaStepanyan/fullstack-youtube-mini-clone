@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import userAuth from "./route/authRouter";
 import videoRoute from "./route/videoRouter"
+import commentRoutes from "./route/commentRoute"
 import path from "path";
 const app = express();
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
@@ -17,6 +18,7 @@ app.use(
 app.use(express.json());
 app.use("/api/user", userAuth);
 app.use("/api/video", videoRoute);
+app.use("/api", commentRoutes);
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from the backend!" });
 });
