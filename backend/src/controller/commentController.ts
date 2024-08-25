@@ -22,3 +22,29 @@ export const getComments = async (
   }
 };
 
+export const createComment = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { video_id, user_id, comment_text, parent_id } = req.body;
+
+    if (!video_id || !user_id || !comment_text) {
+      return res.status(400).json({ msg: "Missing required fields" });
+    }
+
+    const sql = `
+      INSERT INTO comments (video_id, user_id, comment_text, parent_id, created_at) 
+      VALUES (?, ?, ?, ?, NOW())
+    `;
+    const params = [video_id, user_id, comment_text, parent_id || null];
+
+    await pool.query(sql, params);
+
+    return res.status(201).json({ msg: "Comment created successfully" });
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return res.status(500).json({ msg: "Server error" });
+  }
+};
+
