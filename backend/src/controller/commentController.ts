@@ -48,3 +48,24 @@ export const createComment = async (
   }
 };
 
+export const updateComment = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { id } = req.params;
+    const { comment_text } = req.body;
+
+    if (!comment_text) {
+      return res.status(400).json({ msg: "Comment text is required" });
+    }
+
+    const sql = `UPDATE comments SET comment_text = ? WHERE id = ?`;
+    await pool.query(sql, [comment_text, id]);
+
+    return res.json({ msg: "Comment updated successfully" });
+  } catch (error) {
+    console.error("Error updating comment:", error);
+    return res.status(500).json({ msg: "Server error" });
+  }
+};
