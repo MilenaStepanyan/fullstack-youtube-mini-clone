@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import YouTube_logo from "../../../public/YouTube_logo.png";
 import axios from "axios";
 import { Search } from "../techComponents/Search";
-
+import { Results } from "../techComponents/Results";
+import Comments from "../techComponents/Comments"; 
 
 const API_URL = "http://localhost:3010/api/";
 
@@ -11,10 +12,10 @@ export const Profile: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
   const [results, setResults] = useState<any[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
-  const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
-
+  const [selectedVideoId, setSelectedVideoId] = useState<number | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -24,16 +25,17 @@ export const Profile: React.FC = () => {
     }
   }, []);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setSelectedFile(e.target.files[0]);
-    }
-  };
   const getUserIdFromToken = (token: string) => {
     const payload = token.split(".")[1];
     const decodedPayload = atob(payload);
     const parsedData = JSON.parse(decodedPayload);
-    return parsedData.userId; 
+    return parsedData.userId;
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedFile(e.target.files[0]);
+    }
   };
 
   const handleUpload = async (e: React.FormEvent) => {
@@ -65,12 +67,16 @@ export const Profile: React.FC = () => {
       });
 
       console.log("Video uploaded successfully:", response.data);
-      setUploadSuccess("Video uploaded successfully!"); 
+      setUploadSuccess("Video uploaded successfully!");
       setUploadError(null);
     } catch (error) {
       console.error("Error uploading video:", error);
       setUploadError("Failed to upload video.");
     }
+  };
+
+  const handleVideoSelect = (videoId: number) => {
+    setSelectedVideoId(videoId);
   };
 
   return (
@@ -82,7 +88,6 @@ export const Profile: React.FC = () => {
               <img src={YouTube_logo} alt="YouTube Logo" />
             </div>
             <Search setResults={setResults} />
-
           </div>
         </header>
 
@@ -113,26 +118,10 @@ export const Profile: React.FC = () => {
           </div>
 
           <div className="results-container">
-            <div className="results">
-              {results.length > 0 && (
-                <ul>
-                  {results.map((result, index) => (
-                    <li key={index}>
-                      <h3>{result.title}</h3>
-                      <p>{result.description}</p>
-                      <video width="320" height="240" controls>
-                        <source
-                          src={`http://localhost:3010/uploads/${result.filename}`}
-                          type={result.mimetype}
-                        />
-                        Your browser does not support the video tag.
-                      </video>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            <Results results={results} onVideoSelect={handleVideoSelect} />
           </div>
+
+          {selectedVideoId && <Comments videoId={selectedVideoId} />}
         </div>
       </div>
     </>
