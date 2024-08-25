@@ -70,6 +70,17 @@ const Comments: React.FC<CommentsProps> = ({ videoId }) => {
     }
   };
 
+  const handleDeleteComment = async (id: number) => {
+    try {
+      await fetch(`/api/comments/${id}`, {
+        method: "DELETE",
+      });
+      setComments(comments.filter(comment => comment.id !== id));
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
 
 
   return (
