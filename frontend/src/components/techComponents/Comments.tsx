@@ -81,7 +81,24 @@ const Comments: React.FC<CommentsProps> = ({ videoId }) => {
     }
   };
 
+  const handleUpdateComment = async (id: number, updatedText: string) => {
+    if (!updatedText) return;
 
+    try {
+      await fetch(`/api/comments/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ comment_text: updatedText }),
+      });
+      setComments(comments.map(comment =>
+        comment.id === id ? { ...comment, comment_text: updatedText } : comment
+      ));
+    } catch (error) {
+      console.error("Error updating comment:", error);
+    }
+  };
 
   return (
     <div>
