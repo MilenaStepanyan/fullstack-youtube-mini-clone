@@ -69,3 +69,20 @@ export const updateComment = async (
     return res.status(500).json({ msg: "Server error" });
   }
 };
+
+export const deleteComment = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { id } = req.params;
+
+    const sql = `DELETE FROM comments WHERE id = ?`;
+    await pool.query(sql, [id]);
+
+    return res.json({ msg: "Comment deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    return res.status(500).json({ msg: "Server error" });
+  }
+};
